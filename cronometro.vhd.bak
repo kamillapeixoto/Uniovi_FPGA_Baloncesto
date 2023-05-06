@@ -1,0 +1,87 @@
+-- Quartus II VHDL Template
+-- Binary Up/Down Counter with Saturation
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity cronometro is
+
+	generic
+	(
+		-- Segundos
+		MIN_COUNT_SEC : natural := 0;
+		MAX_COUNT_SEC : natural := 60;
+	
+		-- Minutos
+		MIN_COUNT_MIN : natural := 0;
+		MAX_COUNT_MIN : natural := 15; -- Valor arbitrario	
+		
+		-- Reloj
+		MIN_COUNT_CLK  : natural:= 0;
+		MAX_COUNT_CLK  : natural:= 50000000; -- Clock de 50 Mhz de la FPGA 
+	);
+
+	port 
+	(
+		clk		   : in std_logic;
+		reset	      : in std_logic;
+		enable	   : in std_logic;
+		duration    : in range MIN_COUNT_MIN to MAX_COUNT_MIN
+		time_min    : out integer range MIN_COUNT_MIN to MAX_COUNT_MIN
+		time_sec    : out integer range MIN_COUNT_SEC to MAX_COUNT_SEC
+		alarm			: out std_logic;
+	);
+
+end entity;
+
+architecture rtl of binary_up_down_counter_with_saturation is
+		signal limit : integer range MIN_COUNT_MIN to MAX_COUNT_MIN;
+begin
+
+	process (clk)
+		variable cnt  : integer range MIN_COUNT_CLK to MAX_COUNT_CLK;
+		variable done : integer range 0 to 4; -- Toca la alarma por 4 segundos
+	begin
+
+		-- Synchronously update the counter
+		if (rising_edge(clk)) then
+
+			if (reset = '1') then
+				-- Reset the counter to 0
+				cnt := MIN_COUNT_CLK;
+				time_min <= duration;
+				time_sec <= 0;
+				alarm <= 0;
+				done <= 0;
+
+			elsif (enable = '1' and cnt /= limit and done <= '4') then
+				-- Decrement the counter, 
+				-- if the limit is not exceeded
+				cnt := cnt + 1;
+			elsif (cnt = MAX_COUNT_CLK) then -- Ha pasado 1 segundo
+				cnt := 0;
+				if (alarm = '1') then
+					done := done + 1;
+					if (done = 4) then -- Conta 4 segundos y desactiva la alarma
+						alarm <= 0;
+					end if;
+				elsif (time_sec = '0') then
+					if (time_min = '0') then
+						alarm <= 1;
+					else						
+						time_sec <= 59;
+						time_min <= time_min -1;
+				else
+					time_sec <= time_sec - 1;
+				end if;
+			
+
+			end if;
+		end if;
+
+		-- Output the current count
+		q <= cnt;
+	end process;
+
+end rtl;
