@@ -29,9 +29,11 @@ entity cronometro is
 		clk		   : in std_logic;
 		reset	      : in std_logic;
 		enable	   : in std_logic;
-		duration    : in integer range 0 to 15;
-		time_min    : out integer range 0 to 15;
-		time_sec    : out integer range 0 to 63;
+		config_act  : in std_logic;
+		total_min   : in std_logic_vector (3 downto 0);
+		total_sec   : in std_logic_vector (5 downto 0);
+		time_min    : out std_logic_vector (3 downto 0);
+		time_sec    : out std_logic_vector (5 downto 0);
 		alarm			: out std_logic
 	);
 
@@ -45,8 +47,8 @@ begin
 		variable cnt  : integer range 0 to 5;
 		variable done : integer range 0 to 4; -- Toca la alarma por 4 segundos
 		variable end_count :std_logic;
-		variable time_min_var : integer range 0 to 15;
-		variable time_sec_var : integer range 0 to 63;
+		variable time_min_var : std_logic_vector (3 downto 0);
+		variable time_sec_var : std_logic_vector (5 downto 0);
 	begin
 
 		-- Synchronously update the counter
@@ -55,12 +57,15 @@ begin
 			if (reset = '1') then
 				-- Reset the counter to 0
 				cnt := MIN_COUNT_CLK;
-				time_min_var := duration;
-				time_sec_var := 0;
+				time_min_var := total_min;
+				time_sec_var := total_sec;
 				alarm <= '0';
 				done := 0;
 				end_count := '0';
-
+			end if;
+			if (config_act = '0') then --en modo configurar los botones van directamente a la salida
+				time_min_var := total_min;
+				time_sec_var := total_sec;
 			elsif (enable = '1' and cnt /= MAX_COUNT_CLK and done < 4) then
 				-- Decrement the counter, 
 				-- if the limit is not exceeded
@@ -72,15 +77,15 @@ begin
 					if (done = 4) then -- Conta 4 segundos y desactiva la alarma
 						end_count := '0';
 					end if;
-				elsif (time_sec_var = 0) then
-					if (time_min_var = 0) then
+				elsif (unsigned(time_sec_var) = 0) then
+					if (unsigned(time_min_var) = 0) then
 						end_count := '1';
 					else						
-						time_sec_var := 59;
-						time_min_var := time_min_var -1;
+						time_sec_var := "111011"; -- verificar se é lsb ou msb
+						time_min_var := std_logic_vector(unsigned(time_min_var) -1);
 						end if;
 				else
-					time_sec_var := time_sec_var - 1;
+					time_sec_var := std_logic_vector(unsigned(time_sec_var) - 1);
 				end if;
 			
 

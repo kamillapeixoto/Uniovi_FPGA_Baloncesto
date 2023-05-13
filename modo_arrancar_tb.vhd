@@ -12,7 +12,6 @@ architecture tb of modo_arrancar_tb is
 		signal clk		   : std_logic := '0';
 		signal enable	   : std_logic := '0'; -- salida del interruptor
 		signal rst			: std_logic := '0';
-		signal inicio     : std_logic := '0';
 		
 		signal iniciar_tiempo:std_logic := '0';
 		
@@ -24,16 +23,12 @@ architecture tb of modo_arrancar_tb is
 		signal inc_vis2    : std_logic:= '0';
 		signal inc_vis3    : std_logic:= '0';
 		
-	--	signal tot_visit_con: integer range 0 to 255 :=0;
-	--	signal tot_local_con: integer range 0 to 255 :=32;
 	
 		signal tot_visit_con:  std_logic_vector (7 downto 0) := "00000001";
 		signal tot_local_con:  std_logic_vector (7 downto 0) := "00000110";
 		
 		signal contador_on : std_logic;
 
-	--	signal tot_visit   :integer range 0 to 255;
-	--	signal tot_local   :integer range 0 to 255;
 	
 		signal tot_visit   :  std_logic_vector (7 downto 0);
 		signal tot_local   :  std_logic_vector (7 downto 0);
@@ -51,7 +46,6 @@ begin
 		clk => clk, 
 		enable => enable,
 		rst => rst,
-		inicio => inicio,
 		
 		iniciar_tiempo => iniciar_tiempo,
 		
@@ -85,11 +79,6 @@ begin
 				 '1' after 750 ns,
 				 '0' after 770 ns;				 
 				 
-				 
-		inicio  <=  '1' after 30 ns,
-						'0' after 50 ns,
-						'1' after 530 ns,
-						'0' after 550 ns;
 				 
 		iniciar_tiempo <= '1' after 50 ns,
 						'0' after 70 ns,
@@ -131,6 +120,17 @@ begin
 						'0' after 210 ns,
 						'1' after 690 ns,
 						'0' after 710 ns;
+						
+		tot_visit_con <= "00010001" after 250 ns,
+						"01010001" after 270 ns,
+						"00011001" after 910 ns,
+						"00010101" after 930 ns;
+						
+						
+		tot_local_con <= "00010101" after 250 ns,
+						"01010011" after 270 ns,
+						"00011011" after 910 ns,
+						"10010101" after 930 ns;
 						
 	wait for 1000 ns;
 	assert false report "Test: OK iha" severity failure;

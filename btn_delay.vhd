@@ -5,7 +5,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity rst_delay is
+entity btn_delay is
 
 	generic
 	(
@@ -19,14 +19,14 @@ entity rst_delay is
 	port 
 	(
 		clk		   : in std_logic;
-		rst_btn     : in std_logic;
-		rst_on   	: out std_logic
+		btn_in      : in std_logic;
+		btn_out   	: out std_logic
 	);
 
 end entity;
 
-architecture rtl of rst_delay is
-	signal count_5sec: integer;
+architecture rtl of btn_delay is
+	signal count_05sec: integer;
 	
 	
 begin
@@ -36,22 +36,22 @@ begin
 		 
 		
 	begin
-		count_5sec <= 5*MAX_COUNT_CLK;
+		count_05sec <= MAX_COUNT_CLK/2;
 		
 		-- Synchronously update the counter
 		if (rising_edge(clk)) then
 
-			if (rst_btn = '1') then
+			if (btn_in = '1') then
 				cnt := cnt + 1;
 			else
 				cnt := 0;
 			end if;
 			
-			if (cnt >= count_5sec) then
-				rst_on <= '1';
+			if (cnt >= count_05sec) then
+				btn_out <= '1';
 				cnt := 0;
 			else
-				rst_on <= '0';			
+				btn_out <= '0';			
 			end if;
 			
 		end if;

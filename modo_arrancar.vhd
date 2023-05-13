@@ -13,7 +13,6 @@ entity modo_arrancar is
 		clk		   : in std_logic;
 		enable	   : in std_logic; -- salida del interruptor
 		rst			: in std_logic;
-		inicio      : in std_logic;
 		
 		iniciar_tiempo: in std_logic;
 		
@@ -29,13 +28,9 @@ entity modo_arrancar is
 		tot_visit_con:  in std_logic_vector (7 downto 0);
 		tot_local_con:  in std_logic_vector (7 downto 0);
 	
-	--	tot_visit_con:  in integer range 0 to 255;
-	--	tot_local_con: in integer range 0 to 255;
 		
 		contador_on : out std_logic := '0';
 
-	--	tot_visit   : out integer range 0 to 255;
---		tot_local   : out integer range 0 to 255
 
 		tot_visit   : out std_logic_vector (7 downto 0);
 		tot_local   : out std_logic_vector (7 downto 0)
@@ -49,18 +44,6 @@ architecture rtl of modo_arrancar is
 
 	
 begin
-
-
-		
---	process (enable)
---
---	begin
---		if (rising_edge(enable)) then
---				tot_visit_var <= tot_visit_con;
---				tot_local_var <= tot_local_con;
---		end if;
---		
---		end process;
 	
 	process (clk)
 	
@@ -68,14 +51,10 @@ begin
 		variable tot_visit_var   : std_logic_vector (7 downto 0);
 		variable tot_local_var   : std_logic_vector (7 downto 0);
 		
-	--	variable tot_visit_con_i   : integer range 0 to 255;
-	--	variable tot_local_con_i   : integer range 0 to 255;
 	
 	
 	begin
 	
-	--tot_visit_con_i := to_integer(unsigned(tot_visit_con));
-	--tot_local_con_i := to_integer(unsigned(tot_local_con));
 	
 	if (rising_edge(clk)) then
 			
@@ -87,10 +66,6 @@ begin
 			end if;
 			
 			if (enable = '1') then
-				if (inicio = '1') then
-					tot_visit_var := tot_visit_con;
-					tot_local_var := tot_local_con;
-				end if;
 				if (iniciar_tiempo = '1') then
 					contador_status := not contador_status;
 				end if;
@@ -118,7 +93,9 @@ begin
 				if (inc_vis3 = '1') then
 					tot_visit_var := std_logic_vector(unsigned(tot_visit_var)+3);
 				end if;
-				
+			else -- Si está en el modo "configurar"
+					tot_visit_var := tot_visit_con;
+					tot_local_var := tot_local_con;		
 			end if; -- enable
 
 		end if; -- clock
