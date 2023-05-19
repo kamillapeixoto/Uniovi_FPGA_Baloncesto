@@ -1,0 +1,170 @@
+-- References: https://vhdlguide.readthedocs.io/en/latest/vhdl/testbench.html
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+
+entity MarcadorBaloncesto_tb is
+end MarcadorBaloncesto_tb;
+
+architecture tb of MarcadorBaloncesto_tb is
+
+		-- Entradas
+		signal clk		   : std_logic := '0';
+		signal rst			: std_logic := '0';
+		
+		signal arrancar_btn   : std_logic := '0';
+		signal iniciar_tiempo : STD_LOGIC := '0';
+		
+		signal inc1_loc :  STD_LOGIC := '0';
+		signal inc2_loc :  STD_LOGIC := '0';
+		signal inc3_loc :  STD_LOGIC := '0';
+		
+		signal inc1_vis :  STD_LOGIC := '0';
+		signal inc2_vis :  STD_LOGIC := '0';
+		signal inc3_vis :  STD_LOGIC := '0';
+		
+		
+		signal inc_loc    : std_logic:= '0';	
+		signal dec_loc    : std_logic:= '0';
+		
+		signal inc_vis    : std_logic:= '0';	
+		signal dec_vis    : std_logic:= '0';
+			
+		signal inc_min    : std_logic:= '0';	
+		signal dec_min    : std_logic:= '0';
+		
+		signal inc_sec    : std_logic:= '0';	
+		signal dec_sec    : std_logic:= '0';
+	
+		-- Salidas
+		signal sirena     : std_logic;
+		signal punt_loc   : std_logic_vector (7 downto 0);
+		signal punt_vis   : std_logic_vector (7 downto 0);
+	--	signal tiempo_min : integer range 0 to 15;
+	--	signal tiempo_seg : integer range 0 to 60;
+		signal tiempo_min : std_logic_vector (3 downto 0);
+		signal tiempo_seg : std_logic_vector (5 downto 0);
+	 
+	   constant T : time := 20 ns; 
+begin
+
+
+	clk <= not clk after T/2;
+	
+	
+    -- connecting testbench signals with modo_arrancar.vhd
+    dut : entity work.MarcadorBaloncesto_mainv2(bdf_type) 
+	 port map (
+		clk    => clk, 
+		rst    => rst,
+		arrancar_btn => arrancar_btn,
+		iniciar_tiempo => iniciar_tiempo,
+		
+		inc1_loc    => inc1_loc,
+		inc2_loc    => inc2_loc,
+		inc3_loc    => inc3_loc,
+		
+		inc1_vis    => inc1_vis,	
+		inc2_vis    => inc2_vis,	
+		inc3_vis    => inc3_vis,
+		
+		
+		inc_loc    => inc_loc,
+		dec_loc    => dec_loc,
+		
+		inc_vis    => inc_vis,	
+		dec_vis    => dec_vis,
+			
+		inc_min    => inc_min,	
+		dec_min    => dec_min,
+	
+		inc_sec    => inc_sec,	
+		dec_sec    => dec_sec,
+		
+		-- Salidas
+		sirena     => sirena,
+		punt_loc   => punt_loc,
+		punt_vis   => punt_vis,
+		tiempo_min => tiempo_min, 
+		tiempo_seg => tiempo_seg
+	
+	 
+	 );
+	
+ process
+	begin
+	
+		-- Desde zero a 1000 ns el testbench estará en el modo configurar
+		arrancar_btn <= '1' after 1000 ns;
+		 
+		 
+		rst <= -- Modo Configurar
+						 '1' after 10 ns,
+						 '0' after 30 ns, -- Reset presionado por 1 ciclo (nada cambia)
+						 '1' after 50 ns,
+						 '0' after 370 ns, -- Reset presionado por 6 segundos (6*clk) borrará todo
+						 '1' after 850 ns,
+						 '0' after 950 ns, -- Reset presionado por 5 segundos (5*clk) borrará todo
+						 -- Modo Arrancar
+						 '1' after 1010 ns,
+						 '0' after 1030 ns, -- Reset presionado por 1 ciclo (nada cambia)
+						 '1' after 1050 ns,
+						 '0' after 1370 ns, -- Reset presionado por 6 segundos (6*clk) borrará todo
+						 '1' after 1850 ns,
+						 '0' after 1950 ns; -- Reset presionado por 5 segundos (5*clk) borrará todo
+				 
+		iniciar_tiempo <= -- Modo Configurar
+						'1' after 30 ns,
+						'0' after 50 ns, -- Ese botón no tiene efecto en ese modo
+						-- Modo Arrancar				
+						'1' after 1030 ns,
+						'0' after 1050 ns, -- Inicia la cuenta regresiva
+						'1' after 1830 ns,
+						'0' after 1850 ns, -- Para la cuenta regresiva
+						'1' after 1930 ns,
+						'0' after 1950 ns, -- Inicia la cuenta regresiva
+						'1' after 1970 ns,
+						'0' after 1990 ns; -- Para la cuenta regresiva
+						
+		inc_loc  <= -- Modo Configurar
+						'1' after 70 ns,
+						'0' after 90 ns, -- Nada cambia, pues es necesario presionarlo por lo menos 0,5s 
+						'1' after 110 ns,
+						'0' after 510 ns, -- Incrementa X en la puntuación de local
+						-- Modo Arrancar				
+						'1' after 1070 ns,
+						'0' after 1090 ns, -- Nada cambia, pues ese boton no está activo en el modo arrancar
+						'1' after 1110 ns,
+						'0' after 1510 ns; -- Nada cambia, pues ese boton no está activo en el modo arrancar
+						
+		dec_loc  <= -- Modo Configurar
+						'1' after 510 ns,
+						'0' after 530 ns, -- Nada cambia, pues es necesario presionarlo por lo menos 0,5s 
+						'1' after 550 ns,
+						'0' after 670 ns, -- Decrementa X en la puntuación de local
+						-- Modo Arrancar	
+						'1' after 1510 ns,
+						'0' after 1530 ns,  -- Nada cambia, pues ese boton no está activo en el modo arrancar
+						'1' after 1550 ns,
+						'0' after 1670 ns;  -- Nada cambia, pues ese boton no está activo en el modo arrancar 
+						
+		inc_vis  <= -- Modo Configurar
+						'1' after 690 ns, 
+						'0' after 810 ns, -- Incrementa X en la puntuacion del visitante
+						-- Modo Arrancar	
+						'1' after 1690 ns, 
+						'0' after 1810 ns;
+						
+		
+						
+		
+						
+	wait for 2000 ns;
+	assert false report "Test: OK" severity failure;
+end process;
+	 
+	
+
+end architecture tb ;

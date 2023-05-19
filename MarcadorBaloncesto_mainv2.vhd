@@ -14,7 +14,7 @@
 
 -- PROGRAM		"Quartus II 64-Bit"
 -- VERSION		"Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
--- CREATED		"Sat May 13 22:37:34 2023"
+-- CREATED		"Sun May 14 19:09:49 2023"
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.all; 
@@ -42,7 +42,6 @@ ENTITY MarcadorBaloncesto_mainv2 IS
 		dec_min :  IN  STD_LOGIC;
 		inc_sec :  IN  STD_LOGIC;
 		dec_sec :  IN  STD_LOGIC;
-		rst_test :  OUT  STD_LOGIC;
 		sirena_out :  OUT  STD_LOGIC;
 		punt_loc :  OUT  STD_LOGIC_VECTOR(7 DOWNTO 0);
 		punt_vis :  OUT  STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -149,7 +148,6 @@ SIGNAL	SYNTHESIZED_WIRE_16 :  STD_LOGIC_VECTOR(7 DOWNTO 0);
 
 
 BEGIN 
-rst_test <= SYNTHESIZED_WIRE_17;
 
 
 

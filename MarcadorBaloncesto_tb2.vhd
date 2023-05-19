@@ -47,7 +47,7 @@ architecture tb of MarcadorBaloncesto_tb2 is
 		signal tiempo_min : std_logic_vector (3 downto 0);
 		signal tiempo_seg : std_logic_vector (5 downto 0);
 		
-		signal rst_test : std_logic;
+	--	signal rst_test : std_logic;
 	 
 	   constant T : time := 10 ns; 
 begin
@@ -90,8 +90,8 @@ begin
 		punt_loc   => punt_loc,
 		punt_vis   => punt_vis,
 		tiempo_min => tiempo_min, 
-		tiempo_seg => tiempo_seg,
-		rst_test => rst_test
+		tiempo_seg => tiempo_seg
+	--	rst_test => rst_test
 	 
 	 );
 	

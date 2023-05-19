@@ -1,0 +1,70 @@
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+
+# Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# File: C:\altera\13.0sp1\UNIOVI\MarcadorBaloncesto_pins2.csv
+# Generated on: Thu May 18 13:29:49 2023
+
+# Note: The column header names should not be changed if you wish to import this .csv file into the Quartus II software.
+
+To,Direction,Location,Fitter Location,Reserved
+arrancar_btn,Input,PIN_194,PIN_194,
+clk,Input,PIN_184,PIN_184,
+dec_loc,Input,PIN_6,PIN_6,
+dec_min,Input,PIN_15,PIN_15,
+dec_sec,Input,PIN_19,PIN_19,
+dec_vis,Input,PIN_10,PIN_10,
+inc1_loc,Input,PIN_154,PIN_154,
+inc1_vis,Input,PIN_147,PIN_147,
+inc2_loc,Input,PIN_151,PIN_151,
+inc2_vis,Input,PIN_145,PIN_145,
+inc3_loc,Input,PIN_149,PIN_149,
+inc3_vis,Input,PIN_142,PIN_142,
+inc_loc,Input,PIN_3,PIN_3,
+inc_min,Input,PIN_12,PIN_12,
+inc_sec,Input,PIN_17,PIN_17,
+inc_vis,Input,PIN_8,PIN_8,
+iniciar_tiempo,Input,PIN_140,PIN_140,
+punt_loc[7],Output,PIN_49,PIN_49,
+punt_loc[6],Output,PIN_47,PIN_47,
+punt_loc[5],Output,PIN_45,PIN_45,
+punt_loc[4],Output,PIN_43,PIN_43,
+punt_loc[3],Output,PIN_40,PIN_40,
+punt_loc[2],Output,PIN_38,PIN_38,
+punt_loc[1],Output,PIN_36,PIN_36,
+punt_loc[0],Output,PIN_34,PIN_34,
+punt_vis[7],Output,PIN_108,PIN_108,
+punt_vis[6],Output,PIN_110,PIN_110,
+punt_vis[5],Output,PIN_112,PIN_112,
+punt_vis[4],Output,PIN_114,PIN_114,
+punt_vis[3],Output,PIN_117,PIN_117,
+punt_vis[2],Output,PIN_119,PIN_119,
+punt_vis[1],Output,PIN_121,PIN_121,
+punt_vis[0],Output,PIN_123,PIN_123,
+rst,Input,PIN_21,PIN_21,
+sirena_out,Output,PIN_160,PIN_160,
+tiempo_min[3],Output,PIN_61,PIN_61,
+tiempo_min[2],Output,PIN_59,PIN_59,
+tiempo_min[1],Output,PIN_57,PIN_57,
+tiempo_min[0],Output,PIN_55,PIN_55,
+tiempo_seg[5],Output,PIN_101,PIN_101,
+tiempo_seg[4],Output,PIN_99,PIN_99,
+tiempo_seg[3],Output,PIN_97,PIN_97,
+tiempo_seg[2],Output,PIN_95,PIN_95,
+tiempo_seg[1],Output,PIN_93,PIN_93,
+tiempo_seg[0],Output,PIN_91,PIN_91,
+TMS,Input,PIN_127,PIN_127,
+TDI,Input,PIN_176,PIN_176,
+TCK,Input,PIN_30,PIN_30,
+TDO,Output,PIN_189,PIN_189,
