@@ -20,7 +20,7 @@ entity cronometro is
 		
 		-- Reloj
 		MIN_COUNT_CLK  : natural:= 0;
-		MAX_COUNT_CLK  : natural:= 5
+		MAX_COUNT_CLK  : natural:= 51000000
 		-- Clock de 50 Mhz de la FPGA, pero será usado 5 solamente para facilitar la simulacion
 	);
 
